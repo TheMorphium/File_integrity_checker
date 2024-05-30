@@ -102,10 +102,10 @@ def exit_handler(*args):
 
 
 def build_observer():
-    patterns = ["*.py;*.js;*.env;*.md;*.txt"]
+    patterns = ["*.py;*.env;*.json;*.js;*.md"]
     ignore_patterns = None
     ignore_directories = False
-    case_sensitive = True
+    case_sensitive = False
     my_event_handler = PatternMatchingEventHandler(patterns, ignore_patterns, ignore_directories, case_sensitive)
     my_event_handler.on_created = on_created
     my_event_handler.on_deleted = on_deleted
