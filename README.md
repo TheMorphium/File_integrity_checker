@@ -36,4 +36,4 @@ WantedBy=multi-user.target
 10) Enable service "systemctl enable py_watchdog"
 11) Start service "systemctl start py_watchdog"
 
-TE
+T
