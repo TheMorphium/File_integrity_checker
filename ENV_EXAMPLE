@@ -1,5 +1,7 @@
 locations = '["/first/folder/to/watch", "/second/folder/to/watch"]' # add "./" if you want the watchdog to monitor itself.
 
+patterns = '["*.py", "*.js", "*.md", "*.json", "*.env", "*.txt", "*.text"]' #add any files you want to monitor
+
 account_sid = 'Twilio Account SID' #your twilio sms sid
 auth_token = 'Twilio Auth Token' #your twilio sms auth token
 from_num = '+15553431212' #your twilio sms did
