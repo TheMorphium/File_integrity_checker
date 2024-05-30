@@ -30,10 +30,10 @@ locations.append('./')
 startup_time = int(datetime.timestamp(datetime.now()))
 
 def check_set_startup():
-    error_count = 0
     if os.path.isfile(last_start_time_file):
-        previous_start = os.getenv('start_time', last_start_time_file)
-        error_count = int(os.getenv('error_count', last_start_time_file))
+        load_dotenv(last_start_time_file)
+        previous_start = int(os.getenv('start_time'))
+        error_count = int(os.getenv('error_count'))
         time_difference = startup_time - previous_start
         if time_difference >= 600:
             error_count = 0
@@ -41,6 +41,7 @@ def check_set_startup():
         else:
             error_count += 1
     else:
+        error_count = 0
         system_starting()
     if error_count > 10:
         send_fail()
@@ -51,7 +52,7 @@ def check_set_startup():
 
 
 def send_fail():
-    pass
+    print('System Failure!!!')
 
 
 def on_created(event):
@@ -71,8 +72,8 @@ def on_moved(event):
     send_message(alert_number, f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
 
 def system_starting():
-    print('Integrity Watchdog is Shutting Down!')
-    send_message(alert_number, 'Integrity Watchdog is Shutting Down!')
+    print('Integrity Watchdog is Starting!')
+    send_message(alert_number, 'Integrity Watchdog is Starting!')
 
 def exit_handler(*args):
     print('Integrity Watchdog is Shutting Down!')
@@ -88,6 +89,7 @@ signal.signal(signal.SIGTERM, exit_handler)
 signal.signal(signal.SIGINT, exit_handler)
 
 def build_observer():
+    my_event_handler = PatternMatchingEventHandler(patterns, ignore_patterns, ignore_directories, case_sensitive)
     my_event_handler.on_created = on_created
     my_event_handler.on_deleted = on_deleted
     my_event_handler.on_modified = on_modified
@@ -113,5 +115,4 @@ if __name__ == "__main__":
     ignore_patterns = None
     ignore_directories = False
     case_sensitive = True
-    my_event_handler = PatternMatchingEventHandler(patterns, ignore_patterns, ignore_directories, case_sensitive)
     build_observer()
