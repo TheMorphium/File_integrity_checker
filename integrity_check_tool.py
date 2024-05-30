@@ -103,7 +103,7 @@ def exit_handler(*args):
 
 def build_observer():
     patterns = ["*"]
-    ignore_patterns = ["*.git*"]
+    ignore_patterns = ["*git*"]
     ignore_directories = False
     case_sensitive = True
     my_event_handler = PatternMatchingEventHandler(patterns, ignore_patterns, ignore_directories, case_sensitive)
