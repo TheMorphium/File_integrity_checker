@@ -102,7 +102,7 @@ def exit_handler(*args):
 
 
 def build_observer():
-    patterns = ["*.py", "*.js", "*.md"]
+    patterns = ["*.py", "*.js", "*.md", "*.json", "*.env", "*.txt", "*.text"]
     ignore_patterns = None
     ignore_directories = False
     case_sensitive = False
