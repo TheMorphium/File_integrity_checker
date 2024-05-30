@@ -1,7 +1,7 @@
 locations = '["/first/folder/to/watch", "/second/folder/to/watch"]' # add "./" if you want the watchdog to monitor itself.
 
-account_sid = 'Twilio Account SID'
-auth_token = 'Twilio Auth Token'
+account_sid = 'Twilio Account SID' #your twilio sms sid
+auth_token = 'Twilio Auth Token' #your twilio sms auth token
 from_num = '+15553431212' #your twilio sms did
 
-alert_number = '+15556667777' #The phone number you want alerts sent to.
+alert_number = '+15556667777' #the phone number you want alerts sent to.
