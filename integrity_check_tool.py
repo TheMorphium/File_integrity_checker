@@ -30,7 +30,7 @@ def on_deleted(event):
     send_message(alert_number, f"what the f**k! Someone deleted {event.src_path}!")
 
 def on_modified(event):
-    print(f"hey buddy, {event.src_path} has been modified")
+    send_message(alert_number, f"hey buddy, {event.src_path} has been modified")
 
 def on_moved(event):
     send_message(alert_number, f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
