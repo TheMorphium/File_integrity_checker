@@ -16,9 +16,14 @@ account_sid = os.getenv('account_sid')
 auth_code = os.getenv('auth_token')
 assigned_did = os.getenv('from_num')
 
+messages_sent = 0
+
 
 
 def send_message(send_number, body):
+    global messages_sent
+    messages_sent += 1
+    print (f"Total Messages Sent = {messages_sent}")
     return
     #client = Client(account_sid, auth_code)
     #message = client.messages.create(body=body, from_=assigned_did, to=send_number)
