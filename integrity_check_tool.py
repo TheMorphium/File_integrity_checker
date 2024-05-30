@@ -102,6 +102,7 @@ def build_observer():
 
 
 if __name__ == "__main__":
+    check_set_startup()
     patterns = ["*"]
     ignore_patterns = None
     ignore_directories = False
