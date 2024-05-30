@@ -19,10 +19,11 @@ assigned_did = os.getenv('from_num')
 
 
 def send_message(send_number, body):
-    client = Client(account_sid, auth_code)
-    message = client.messages.create(body=body, from_=assigned_did, to=send_number)
-    sid = message.sid
-    return sid
+    return
+    #client = Client(account_sid, auth_code)
+    #message = client.messages.create(body=body, from_=assigned_did, to=send_number)
+    #sid = message.sid
+    #return sid
 
 
 def test_send():
