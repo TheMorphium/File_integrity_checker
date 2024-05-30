@@ -47,6 +47,7 @@ def check_set_startup():
         else:
             error_count += 1
     else:
+        shutdown_sent = False
         error_count = 0
         system_starting()
     if error_count > 10:
