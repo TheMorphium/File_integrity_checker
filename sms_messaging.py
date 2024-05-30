@@ -21,11 +21,13 @@ messages_sent = 0
 
 
 def send_message(send_number, body):
-    return
-    #client = Client(account_sid, auth_code)
-    #message = client.messages.create(body=body, from_=assigned_did, to=send_number)
-    #sid = message.sid
-    #return sid
+    global messages_sent
+    messages_sent += 1
+    client = Client(account_sid, auth_code)
+    message = client.messages.create(body=body, from_=assigned_did, to=send_number)
+    sid = message.sid
+    print(f"Messages sent = {messages_sent}")
+    return sid
 
 
 def test_send():
