@@ -40,6 +40,8 @@ def check_set_startup():
             system_starting()
         else:
             error_count += 1
+    else:
+        system_starting()
     if error_count > 10:
         send_fail()
     updated_file_text = f"start_time = '{startup_time}'"
