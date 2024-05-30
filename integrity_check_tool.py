@@ -74,9 +74,13 @@ def system_starting():
     print('Integrity Watchdog is Shutting Down!')
     send_message(alert_number, 'Integrity Watchdog is Shutting Down!')
 
-def exit_handler():
+def exit_handler(*args):
     print('Integrity Watchdog is Shutting Down!')
-    send_message(alert_number, 'Integrity Watchdog is Shutting Down!')
+    try:
+        send_message(alert_number, 'Integrity Watchdog is Shutting Down!')
+    except BaseException as exception:
+        print('Unable to send exit alert')
+
 
 
 atexit.register(exit_handler)
