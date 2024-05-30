@@ -29,8 +29,11 @@ patterns = ast.literal_eval(os.getenv('patterns'))
 locations.append('./')
 startup_time = int(datetime.timestamp(datetime.now()))
 
+previous_start = None
+
 
 def check_set_startup():
+    global previous_start
     if os.path.isfile(last_start_time_file):
         load_dotenv(last_start_time_file)
         previous_start = int(os.getenv('start_time'))
@@ -83,19 +86,18 @@ def system_starting():
 
 def exit_handler(*args):
     load_dotenv(last_start_time_file)
-    previous_start = int(os.getenv('start_time'))
     error_count = int(os.getenv('error_count'))
     shutdown_sent = bool(os.getenv('shutdown_sent'))
     print('Integrity Watchdog is Shutting Down!')
     time_difference = startup_time - previous_start
     if time_difference >= 600:
-        write_updated_file(startup_time, error_count, False)
+        write_updated_file(previous_start, error_count, False)
         try:
             send_message(alert_number, 'Integrity Watchdog is Shutting Down!')
         except BaseException as exception:
             print('Unable to send exit alert')
     elif time_difference < 600 and not shutdown_sent:
-        write_updated_file(startup_time, error_count, True)
+        write_updated_file(previous_start, error_count, True)
         try:
             send_message(alert_number, 'Integrity Watchdog is having issues.  Pausing shutdown alert for 5 minutes!')
         except BaseException as exception:
