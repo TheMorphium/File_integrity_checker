@@ -25,6 +25,7 @@ load_dotenv()
 last_start_time_file = './.laststartup'
 alert_number = os.getenv('alert_number')
 locations = ast.literal_eval(os.getenv('locations'))
+patterns = ast.literal_eval(os.getenv('patterns'))
 locations.append('./')
 startup_time = int(datetime.timestamp(datetime.now()))
 
@@ -102,7 +103,6 @@ def exit_handler(*args):
 
 
 def build_observer():
-    patterns = ["*.py", "*.js", "*.md", "*.json", "*.env", "*.txt", "*.text"]
     ignore_patterns = None
     ignore_directories = False
     case_sensitive = False
