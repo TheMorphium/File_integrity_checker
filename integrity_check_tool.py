@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 import ast
+import atexit
 import os
+import signal
 import site
 import sys
 
@@ -10,6 +12,7 @@ python_lib_folder = f'/env/lib/python{sys.version_info[0]}.{sys.version_info[1]}
 
 site.addsitedir(os.curdir + python_lib_folder)
 
+from datetime import datetime
 from sms_messaging import send_message
 from time import sleep
 from watchdog.observers import Observer
@@ -19,9 +22,35 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+last_start_time_file = './.laststartup'
 alert_number = os.getenv('alert_number')
 locations = ast.literal_eval(os.getenv('locations'))
 locations.append('./')
+
+startup_time = int(datetime.timestamp(datetime.now()))
+
+def check_set_startup():
+    error_count = 0
+    if os.path.isfile(last_start_time_file):
+        previous_start = os.getenv('start_time', last_start_time_file)
+        error_count = int(os.getenv('error_count', last_start_time_file))
+        time_difference = startup_time - previous_start
+        if time_difference >= 600:
+            error_count = 0
+            system_starting()
+        else:
+            error_count += 1
+    if error_count > 10:
+        send_fail()
+    updated_file_text = f"start_time = '{startup_time}'"
+    updated_file_text += f"\nerror_count = '{error_count}'"
+    with open(last_start_time_file, "w") as f:
+        f.write(updated_file_text)
+
+
+def send_fail():
+    pass
+
 
 def on_created(event):
     print(f"hey, {event.src_path} has been created!")
@@ -38,6 +67,19 @@ def on_modified(event):
 def on_moved(event):
     print(f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
     send_message(alert_number, f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
+
+def system_starting():
+    print('Integrity Watchdog is Shutting Down!')
+    send_message(alert_number, 'Integrity Watchdog is Shutting Down!')
+
+def exit_handler():
+    print('Integrity Watchdog is Shutting Down!')
+    send_message(alert_number, 'Integrity Watchdog is Shutting Down!')
+
+
+atexit.register(exit_handler)
+signal.signal(signal.SIGTERM, exit_handler)
+signal.signal(signal.SIGINT, exit_handler)
 
 def build_observer():
     my_event_handler.on_created = on_created
