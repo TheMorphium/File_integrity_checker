@@ -101,12 +101,11 @@ def exit_handler(*args):
             print('Integrity Watchdog is having issues.  Pausing shutdown alert for 5 minutes!')
 
 
-
-atexit.register(exit_handler)
-signal.signal(signal.SIGTERM, exit_handler)
-signal.signal(signal.SIGINT, exit_handler)
-
 def build_observer():
+    patterns = ["*.py;*.env;*.json;*.js"]
+    ignore_patterns = ["*.git*"]
+    ignore_directories = False
+    case_sensitive = True
     my_event_handler = PatternMatchingEventHandler(patterns, ignore_patterns, ignore_directories, case_sensitive)
     my_event_handler.on_created = on_created
     my_event_handler.on_deleted = on_deleted
@@ -124,13 +123,11 @@ def build_observer():
         my_observer.join()
 
 
-
+atexit.register(exit_handler)
+signal.signal(signal.SIGTERM, exit_handler)
+signal.signal(signal.SIGINT, exit_handler)
 
 
 if __name__ == "__main__":
     check_set_startup()
-    patterns = ["*"]
-    ignore_patterns = None
-    ignore_directories = False
-    case_sensitive = True
     build_observer()
