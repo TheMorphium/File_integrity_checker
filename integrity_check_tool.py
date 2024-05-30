@@ -24,15 +24,19 @@ locations = ast.literal_eval(os.getenv('locations'))
 locations.append('./')
 
 def on_created(event):
+    print(f"hey, {event.src_path} has been created!")
     send_message(alert_number, f"hey, {event.src_path} has been created!")
 
 def on_deleted(event):
+    print(f"what the f**k! Someone deleted {event.src_path}!")
     send_message(alert_number, f"what the f**k! Someone deleted {event.src_path}!")
 
 def on_modified(event):
+    print(f"hey buddy, {event.src_path} has been modified")
     send_message(alert_number, f"hey buddy, {event.src_path} has been modified")
 
 def on_moved(event):
+    print(f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
     send_message(alert_number, f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
 
 def build_observer():
