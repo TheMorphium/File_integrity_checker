@@ -34,5 +34,3 @@ def test_send():
     send_number = '+15627040239'
     body = 'This is a test text message'
     send_message(send_number, body)
-
-
